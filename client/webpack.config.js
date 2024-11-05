@@ -3,6 +3,7 @@ const path = require("path");
 const isProduction = process.env.NODE_ENV == "production";
 const config = {
   entry: "./src/index.tsx",
+  devtool: "inline-source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
   },
@@ -10,12 +11,9 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/i,
-        exclude: /(node_modules)/,
-        use: {
-          // `.swcrc` can be used to configure swc
-          loader: "swc-loader",
-        },
+        test: /\.tsx?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/i,
@@ -29,6 +27,10 @@ const config = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"],
+  },
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
   },
 };
 
