@@ -1,0 +1,26 @@
+{
+  "name": "websockets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "start": "npm run build && node dist/main.js"
+  },
+  "keywords": [],
+  "author": "code@nickfunk.com",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.15",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "ioredis": "^5.4.1",
+    "uuid": "^11.0.2"
+  },
+  "devDependencies": {
+    "@types/bunyan": "^1.8.11",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "typescript": "^5.6.3"
+  }
+}
