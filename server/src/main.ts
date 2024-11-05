@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
 import bunyan from "bunyan";
-import Redis from "ioredis";
 import joi from "joi";
+import nunjucks from "nunjucks";
 
 import { EnvConfig } from "./envConfig";
 import { MessageQueue, QueueMessage } from "./messageQueue";
@@ -19,16 +19,22 @@ const run = async () => {
   const log = bunyan.createLogger({ name: "websockets" });
   const env = new EnvConfig();
 
-  const redis = new Redis(env.redis.port, env.redis.hostName);
   const queue = new MessageQueue(log, env.redis.hostName, env.redis.port, env.redis.messageQueueName);
-
   queue.subscribe("msg", (message: QueueMessage) => {
     log.info(message, "received message");
   });
 
+  nunjucks.configure("src/templates", { autoescape: true });
+
   const app = express();
   app.use(cors());
   app.use(express.json());
+
+  app.get("/", (req, res) => {
+    res.send(nunjucks.render("index.html", {}));
+  });
+
+  app.use("/static", express.static("../client/dist"));
 
   app.post("/post", async (req, res) => {
     const result = PostPayloadSchema.validate(req.body);
