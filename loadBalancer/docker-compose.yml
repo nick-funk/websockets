@@ -4,7 +4,7 @@ services:
     restart: always
     ports:
       - "6380:6379"
-  backend_1:
+  backend-1:
     build: ..
     ports:
       - "3000:3000"
@@ -15,7 +15,7 @@ services:
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
       - redis
-  backend_2:
+  backend-2:
     build: ..
     ports:
       - "3001:3000"
@@ -26,7 +26,7 @@ services:
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
       - redis
-  backend_3:
+  backend-3:
     build: ..
     ports:
       - "3002:3000"
@@ -37,7 +37,7 @@ services:
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
       - redis
-  backend_4:
+  backend-4:
     build: ..
     ports:
       - "3003:3000"
@@ -53,9 +53,9 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - backend_1
-      - backend_2
-      - backend_3
-      - backend_4
+      - backend-1
+      - backend-2
+      - backend-3
+      - backend-4
 networks:
   loadBalancing:
