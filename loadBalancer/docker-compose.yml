@@ -1,0 +1,69 @@
+services:
+  redis:
+    image: redis:7.4.1
+    restart: always
+    ports:
+      - "6380:6379"
+  backend_1:
+    build: ..
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - HOST_NAME=0.0.0.0
+      - PORT=3000
+      - WS_PORT=3001
+      - REDIS_PORT=6380
+      - REDIS_HOST_NAME=host.docker.internal
+    depends_on:
+      - redis
+  backend_2:
+    build: ..
+    ports:
+      - "3002:3000"
+      - "3003:3001"
+    environment:
+      - HOST_NAME=0.0.0.0
+      - PORT=3000
+      - WS_PORT=3001
+      - REDIS_PORT=6380
+      - REDIS_HOST_NAME=host.docker.internal
+    depends_on:
+      - redis
+  backend_3:
+    build: ..
+    ports:
+      - "3004:3000"
+      - "3005:3001"
+    environment:
+      - HOST_NAME=0.0.0.0
+      - PORT=3000
+      - WS_PORT=3001
+      - REDIS_PORT=6380
+      - REDIS_HOST_NAME=host.docker.internal
+    depends_on:
+      - redis
+  backend_4:
+    build: ..
+    ports:
+      - "3006:3000"
+      - "3007:3001"
+    environment:
+      - HOST_NAME=0.0.0.0
+      - PORT=3000
+      - WS_PORT=3001
+      - REDIS_PORT=6380
+      - REDIS_HOST_NAME=host.docker.internal
+    depends_on:
+      - redis
+  nginx:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend_1
+      - backend_2
+      - backend_3
+      - backend_4
+networks:
+  loadBalancing:
