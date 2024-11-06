@@ -96,7 +96,15 @@ const run = async () => {
   app.use(express.json());
 
   app.get("/", (req, res) => {
-    res.send(nunjucks.render("index.html", {}));
+    res.send(
+      nunjucks.render("index.html", {
+        staticConfig: JSON.stringify({
+          port: env.port,
+          wsPort: env.wsPort,
+          hostName: env.hostName,
+        }),
+      })
+    );
   });
 
   app.use("/static", express.static("../client/dist"));
