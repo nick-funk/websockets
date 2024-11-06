@@ -46,7 +46,8 @@ const run = async () => {
   });
 
   const wss = new WebSocketServer({
-    port: env.wsPort,
+    noServer: true,
+    path: "/messages",
     perMessageDeflate: {
       zlibDeflateOptions: {
         // See zlib defaults
@@ -97,13 +98,7 @@ const run = async () => {
 
   app.get("/", (req, res) => {
     res.send(
-      nunjucks.render("index.html", {
-        staticConfig: JSON.stringify({
-          port: env.port,
-          wsPort: env.wsPort,
-          hostName: env.hostName,
-        }),
-      })
+      nunjucks.render("index.html")
     );
   });
 
@@ -133,8 +128,14 @@ const run = async () => {
     });
   });
 
-  app.listen(env.port, env.hostName, () => {
+  const server = app.listen(env.port, env.hostName, () => {
     log.info({ port: env.port, host: env.hostName }, "server is listening");
+  });
+
+  server.on("upgrade", (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (websocket) => {
+      wss.emit("connection", websocket, request)
+    });
   });
 };
 

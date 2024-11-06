@@ -1,7 +1,7 @@
 services:
   redis:
     image: redis:7.4.1
-    container_name: websock-redis
+    container_name: websock-dev-redis
     restart: always
     ports:
       - "6379:6379"

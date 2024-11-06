@@ -2,12 +2,10 @@ import React, { FunctionComponent, useCallback } from "react";
 
 import { PostForm } from "./PostForm";
 import { MessageList } from "./MessageList";
-import { StaticConfig } from "./staticConfig";
 
 export const App: FunctionComponent = () => {
   const onSubmit = useCallback(async (text: string) => {
-    const url = StaticConfig.api("/post");
-    await fetch(url, {
+    await fetch("/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

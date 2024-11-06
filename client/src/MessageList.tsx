@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
-import { StaticConfig } from "./staticConfig";
 
 interface Message {
   type: string;
@@ -22,7 +21,7 @@ export const MessageList: FunctionComponent = () => {
     setItems([data, ...items]);
   }, [setItems, items]);
 
-  const socket = new WebSocket(StaticConfig.wsUrl);
+  const socket = new WebSocket("/messages");
   socket.addEventListener("message", onMessage);
 
   return <div>

@@ -8,11 +8,9 @@ services:
     build: ..
     ports:
       - "3000:3000"
-      - "3001:3001"
     environment:
       - HOST_NAME=0.0.0.0
       - PORT=3000
-      - WS_PORT=3001
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
@@ -20,12 +18,10 @@ services:
   backend_2:
     build: ..
     ports:
-      - "3002:3000"
-      - "3003:3001"
+      - "3001:3000"
     environment:
       - HOST_NAME=0.0.0.0
       - PORT=3000
-      - WS_PORT=3001
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
@@ -33,12 +29,10 @@ services:
   backend_3:
     build: ..
     ports:
-      - "3004:3000"
-      - "3005:3001"
+      - "3002:3000"
     environment:
       - HOST_NAME=0.0.0.0
       - PORT=3000
-      - WS_PORT=3001
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
@@ -46,12 +40,10 @@ services:
   backend_4:
     build: ..
     ports:
-      - "3006:3000"
-      - "3007:3001"
+      - "3003:3000"
     environment:
       - HOST_NAME=0.0.0.0
       - PORT=3000
-      - WS_PORT=3001
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
     depends_on:
