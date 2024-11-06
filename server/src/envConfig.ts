@@ -8,6 +8,7 @@ interface RedisConfig {
 
 export class EnvConfig {
   public readonly port: number;
+  public readonly wsPort: number;
   public readonly hostName: string;
 
   public readonly redis: RedisConfig;
@@ -16,6 +17,7 @@ export class EnvConfig {
     config();
 
     this.port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+    this.wsPort = process.env.WS_PORT ? parseInt(process.env.WS_PORT) : 3001;
     this.hostName = process.env.HOST_NAME ? process.env.HOST_NAME : "localhost";
 
     this.redis = {

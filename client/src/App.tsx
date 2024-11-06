@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useCallback } from "react";
 
 import { PostForm } from "./PostForm";
+import { MessageList } from "./MessageList";
 
 export const App: FunctionComponent = () => {
   const onSubmit = useCallback(async (text: string) => {
@@ -17,5 +18,6 @@ export const App: FunctionComponent = () => {
 
   return <div>
     <PostForm onSubmit={onSubmit} />
+    <MessageList />
   </div>;
 };
