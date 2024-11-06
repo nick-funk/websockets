@@ -8,12 +8,10 @@ export const MessageList: FunctionComponent = () => {
   const [items, setItems] = useState<Message[]>([]);
 
   const onMessage = useCallback((message: Message) => {
-    setItems([message, ...items]);
-  }, [setItems, items]);
+    setItems((prev) => [message, ...prev]);
+  }, [setItems]);
 
   useEffect(() => {
-    console.log("subscribe");
-
     const id = Socket.get().subscribe(onMessage);
     return () => {
       Socket.get().unsubscribe(id);
