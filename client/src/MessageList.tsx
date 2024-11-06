@@ -1,28 +1,24 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 
-interface Message {
-  type: string;
-  payload: {
-    body: string;
-  }
-}
+import { Message, Socket } from "./socket";
 
 export const MessageList: FunctionComponent = () => {
   const [items, setItems] = useState<Message[]>([]);
 
-  const onMessage = useCallback((event: MessageEvent<any>) => {
-    const data = JSON.parse(event.data) as Message;
-    if (!data) {
-      return;
-    }
-
-    setItems([data, ...items]);
+  const onMessage = useCallback((message: Message) => {
+    setItems([message, ...items]);
   }, [setItems, items]);
 
-  const socket = new WebSocket("/messages");
-  socket.addEventListener("message", onMessage);
+  useEffect(() => {
+    console.log("subscribe");
+
+    const id = Socket.get().subscribe(onMessage);
+    return () => {
+      Socket.get().unsubscribe(id);
+    }
+  }, [onMessage]);
 
   return <div>
     {items.map((item, index) => <div key={index}>{item.payload.body}</div>)}
