@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { Message, Socket } from "./socket";
 
+import "./MessageList.css";
+
 export const MessageList: FunctionComponent = () => {
   const [items, setItems] = useState<Message[]>([]);
 
@@ -22,16 +24,19 @@ export const MessageList: FunctionComponent = () => {
   }, [onMessage]);
 
   return (
-    <div>
-      {items.map((item, index) => (
-        <div key={index}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: item.payload.body,
-            }}
-          ></div>
-        </div>
-      ))}
+    <div className="messageList">
+      <div className={"title"}>Messages:</div>
+      <div className={"list"}>
+        {items.map((item, index) => (
+          <div className="post" key={index}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: item.payload.body,
+              }}
+            ></div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

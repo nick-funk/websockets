@@ -1,0 +1,23 @@
+.messageList {
+  font-family: sans-serif;
+}
+
+.messageList .title {
+  font-weight: 500;
+
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.messageList .list {
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+
+  min-height: 300px;
+}
+
+.messageList .post {
+  padding: 4px;
+}

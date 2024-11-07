@@ -6,6 +6,8 @@ import React, {
   useState,
 } from "react";
 
+import "./PostForm.css";
+
 interface Props {
   onSubmit: (text: string) => void;
 }
@@ -28,8 +30,8 @@ export const PostForm: FunctionComponent<Props> = ({ onSubmit }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" multiple value={text} onChange={onChange} />
+    <form className="postForm" onSubmit={handleSubmit}>
+      <input type="text" multiple value={text} onChange={onChange} className="input" />
       <input type="submit" value="Submit" />
     </form>
   );
