@@ -1,1 +1,1 @@
-k6 run --vus 10 --duration 60s scripts/post.js
+k6 run --vus 10000 --duration 300s scripts/post.js

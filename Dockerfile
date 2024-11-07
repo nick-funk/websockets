@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM arm64v8/node
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app

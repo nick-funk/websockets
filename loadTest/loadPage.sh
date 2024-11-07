@@ -1,1 +1,1 @@
-k6 run --vus 100 --duration 60s scripts/loadPage.js
+k6 run --vus 100 --duration 300s scripts/loadPage.js

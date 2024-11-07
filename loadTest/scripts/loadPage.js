@@ -3,5 +3,5 @@ import { sleep } from "k6";
 
 export default function () {
   http.get("http://localhost:8080");
-  sleep(0.5);
+  sleep(Math.random() * 10);
 }

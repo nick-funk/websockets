@@ -1,14 +1,15 @@
-import http from "k6/http";
 import { sleep } from "k6";
+import exec from 'k6/execution';
+import http from "k6/http";
 
 export default function () {
   const post = {
-    body: "posting",
+    body: `post - ${exec.scenario.iterationInTest}`,
   };
 
   http.post("http://localhost:8080/post", JSON.stringify(post), {
     headers: { "Content-Type": "application/json" },
   });
 
-  sleep(1);
+  sleep(Math.random() * 30);
 }
