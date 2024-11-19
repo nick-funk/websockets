@@ -22,4 +22,4 @@ ENV WS_PORT=3001
 EXPOSE 3000
 EXPOSE 3001
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]

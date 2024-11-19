@@ -4,6 +4,11 @@ import {
   NodePgDatabase,
 } from "drizzle-orm/node-postgres";
 
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const run = promisify(exec);
+
 export class SqlContext {
   private url: string;
 
@@ -17,5 +22,12 @@ export class SqlContext {
 
     this.db = drizzle(this.url); 
     this.client = this.db.$client;
+  }
+}
+
+export const runMigrations = async () => {
+  const { stderr } = await run("npm run drizzle:apply");
+  if (stderr) {
+    throw new Error(stderr);
   }
 }

@@ -4,8 +4,25 @@ services:
     restart: always
     ports:
       - "6380:6379"
+  postgres:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_USER: websocket
+      POSTGRES_PASSWORD: websocket
+    ports:
+      - "5433:5432"
   backend-1:
     build: ..
+    restart: always
     ports:
       - "3000:3000"
     environment:
@@ -13,10 +30,13 @@ services:
       - PORT=3000
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
+      - POSTGRES_URL=postgres://websocket:websocket@host.docker.internal:5433/websocket
     depends_on:
       - redis
+      - postgres
   backend-2:
     build: ..
+    restart: always
     ports:
       - "3001:3000"
     environment:
@@ -24,10 +44,13 @@ services:
       - PORT=3000
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
+      - POSTGRES_URL=postgres://websocket:websocket@host.docker.internal:5433/websocket
     depends_on:
       - redis
+      - postgres
   backend-3:
     build: ..
+    restart: always
     ports:
       - "3002:3000"
     environment:
@@ -35,10 +58,13 @@ services:
       - PORT=3000
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
+      - POSTGRES_URL=postgres://websocket:websocket@host.docker.internal:5433/websocket
     depends_on:
       - redis
+      - postgres
   backend-4:
     build: ..
+    restart: always
     ports:
       - "3003:3000"
     environment:
@@ -46,8 +72,10 @@ services:
       - PORT=3000
       - REDIS_PORT=6380
       - REDIS_HOST_NAME=host.docker.internal
+      - POSTGRES_URL=postgres://websocket:websocket@host.docker.internal:5433/websocket
     depends_on:
       - redis
+      - postgres
   nginx:
     build: ./nginx
     ports:

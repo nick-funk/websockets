@@ -10,7 +10,7 @@ import { EnvConfig } from "./envConfig";
 import { MessageQueue, QueueMessage } from "./messageQueue";
 import { PersistQueue } from "./persistQueue";
 import { MessagesRepository } from "./data/messages";
-import { SqlContext } from "./data/sql";
+import { runMigrations, SqlContext } from "./data/sql";
 
 const PostPayloadSchema = joi.object({
   body: joi.string().required(),
@@ -28,6 +28,8 @@ interface SocketClient {
 const run = async () => {
   const log = bunyan.createLogger({ name: "websockets" });
   const env = new EnvConfig();
+
+  await runMigrations();
 
   const sql = new SqlContext(env.pg.url);
   const messageRepository = new MessagesRepository(sql, log);
