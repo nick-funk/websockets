@@ -1,9 +1,13 @@
 import { config } from "dotenv";
 
-interface RedisConfig {
+export interface RedisConfig {
   port: number;
   hostName: string;
   messageQueueName: string;
+}
+
+export interface PostgresConfig {
+  readonly url: string;
 }
 
 export class EnvConfig {
@@ -11,6 +15,7 @@ export class EnvConfig {
   public readonly hostName: string;
 
   public readonly redis: RedisConfig;
+  public readonly pg: PostgresConfig;
 
   constructor() {
     config();
@@ -23,5 +28,11 @@ export class EnvConfig {
       hostName: process.env.REDIS_HOST_NAME ? process.env.REDIS_HOST_NAME : "localhost",
       messageQueueName: process.env.REDIS_MESSAGE_QUEUE_NAME ? process.env.REDIS_MESSAGE_QUEUE_NAME : "MESSAGES",
     }
+
+    this.pg = {
+      url:
+        process.env.POSTGRES_URL ??
+        "postgres://websocket:websocket@127.0.0.1:5432/websocket",
+    };
   }
 }

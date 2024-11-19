@@ -8,12 +8,15 @@ import { v4 as uuid } from "uuid";
 
 import { EnvConfig } from "./envConfig";
 import { MessageQueue, QueueMessage } from "./messageQueue";
+import { PersistQueue } from "./persistQueue";
+import { MessagesRepository } from "./data/messages";
+import { SqlContext } from "./data/sql";
 
 const PostPayloadSchema = joi.object({
   body: joi.string().required(),
 });
 
-interface PostPayload {
+export interface PostPayload {
   body: string;
 }
 
@@ -26,7 +29,11 @@ const run = async () => {
   const log = bunyan.createLogger({ name: "websockets" });
   const env = new EnvConfig();
 
+  const sql = new SqlContext(env.pg.url);
+  const messageRepository = new MessagesRepository(sql, log);
+
   const clients = new Map<string, SocketClient>();
+  const persistQueue = new PersistQueue(env.redis, messageRepository);
 
   const queue = new MessageQueue(
     log,
@@ -121,6 +128,8 @@ const run = async () => {
       type: "msg",
       payload: post,
     });
+
+    await persistQueue.save(post);
 
     res.status(200).send({
       success: !!sendResult,
